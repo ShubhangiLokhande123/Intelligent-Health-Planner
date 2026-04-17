@@ -2,7 +2,7 @@
 
 **Your intelligent daily planner — powered by AI**
 
-> Live Demo → **[https://shubhangilokhande123.github.io/Intelligent-Health-Planner/](https://shubhangilokhande123.github.io/Intelligent-Health-Planner/)**
+> Live Demo → **[https://shubhangilokhande123.github.io/Auraplan-AI-Intelligent-Health-Planner/](https://shubhangilokhande123.github.io/Auraplan-AI-Intelligent-Health-Planner/)**
 
 ---
 
