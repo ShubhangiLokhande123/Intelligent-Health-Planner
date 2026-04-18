@@ -6,6 +6,11 @@
   <title>AuraPlan AI</title>
   <link rel="icon" type="image/png" href="logo.png"/>
   <link rel="apple-touch-icon" href="logo.png"/>
+
+  <!-- ⚡ Bolt: Add preconnect for Google Fonts to reduce latency and layout shifts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
@@ -2342,11 +2347,15 @@ function renderCalendar() {
   const today = new Date();
   const grid = document.getElementById('cal-grid');
   grid.innerHTML = '';
+
+  // ⚡ Bolt: Use DocumentFragment to batch DOM insertions, reducing reflows from O(N) to O(1)
+  const fragment = document.createDocumentFragment();
+
   // Blank cells before first day
   for (let i = 0; i < firstDay; i++) {
     const blank = document.createElement('div');
     blank.className = 'h-8';
-    grid.appendChild(blank);
+    fragment.appendChild(blank);
   }
   for (let d = 1; d <= daysInMonth; d++) {
     const btn = document.createElement('button');
@@ -2363,8 +2372,10 @@ function renderCalendar() {
         isWeekend ? 'text-tertiary-dim font-semibold' : 'text-on-surface hover:bg-primary/10',
     ].join(' ');
     btn.onclick = () => selectCalDate(calYear, calMonth, d);
-    grid.appendChild(btn);
+    fragment.appendChild(btn);
   }
+
+  grid.appendChild(fragment);
 }
 
 function selectCalDate(y, m, d) {
@@ -2417,6 +2428,10 @@ function renderTasks(type) {
   list.innerHTML = '';
   if (!tasks.length) { empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
+
+  // ⚡ Bolt: Use DocumentFragment to batch DOM insertions for tasks
+  const fragment = document.createDocumentFragment();
+
   tasks.forEach(task => {
     const card = document.createElement('div');
     if (task.done) card.classList.add('task-done-card');
@@ -2442,8 +2457,10 @@ function renderTasks(type) {
           <span class="material-symbols-outlined text-base">delete</span>
         </button>
       </div>`;
-    list.appendChild(card);
+    fragment.appendChild(card);
   });
+
+  list.appendChild(fragment);
 }
 
 function escHtml(str) {
