@@ -2348,9 +2348,9 @@ function renderCalendar() {
   const grid = document.getElementById('cal-grid');
   grid.innerHTML = '';
 
-  // ⚡ Bolt: Use DocumentFragment to batch DOM insertions, reducing reflows from O(N) to O(1)
+  // ⚡ Bolt Optimization: Use DocumentFragment to batch DOM insertions
+  // This minimizes reflows and repaints by appending to the live DOM only once.
   const fragment = document.createDocumentFragment();
-
   // Blank cells before first day
   for (let i = 0; i < firstDay; i++) {
     const blank = document.createElement('div');
@@ -2374,7 +2374,6 @@ function renderCalendar() {
     btn.onclick = () => selectCalDate(calYear, calMonth, d);
     fragment.appendChild(btn);
   }
-
   grid.appendChild(fragment);
 }
 
@@ -2429,9 +2428,9 @@ function renderTasks(type) {
   if (!tasks.length) { empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
 
-  // ⚡ Bolt: Use DocumentFragment to batch DOM insertions for tasks
+  // ⚡ Bolt Optimization: Use DocumentFragment to batch DOM insertions
+  // This minimizes reflows and repaints by appending to the live DOM only once.
   const fragment = document.createDocumentFragment();
-
   tasks.forEach(task => {
     const card = document.createElement('div');
     if (task.done) card.classList.add('task-done-card');
@@ -2459,7 +2458,6 @@ function renderTasks(type) {
       </div>`;
     fragment.appendChild(card);
   });
-
   list.appendChild(fragment);
 }
 
